@@ -58,7 +58,6 @@ gulp.task('watch', ['browser-sync'], function() {
 
   gulp.watch('dest/css/main.css', function() {
     browserSync.reload("*.css");
-    browserSync.reload("*.pug");
   });
 });
 
