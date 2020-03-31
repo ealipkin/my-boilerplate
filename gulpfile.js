@@ -10,7 +10,6 @@ const browserSync = require('browser-sync').create();
 const imagemin = require('gulp-imagemin');
 const svgstore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
-const gulpif = require('gulp-if');
 const changed = require('gulp-changed');
 const rename = require("gulp-rename");
 const sass = require('gulp-sass');
@@ -193,7 +192,7 @@ gulp.task('pug-concat', () =>
 
 const buildPug = () =>
   gulp.src('src/pug/views/*.pug')
-      .pipe(gulpif(changed('dest', {extension: '.html'})))
+      .pipe(changed('dest', {extension: '.html'}))
       .pipe(plumber())
       .pipe(pug({
         pretty: true

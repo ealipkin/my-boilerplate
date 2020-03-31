@@ -499,6 +499,11 @@ Temporary Items
 *.iml
 out
 gen
-dest/**
-src/css/compiled/**
-src/js/_compiled/**
+dest/*
+src/js/_compiled/*
+src/css/compiled/*
+/dest/css/main.css
+/dest/css/
+/dest/js/
+/src/js/_compiled/
+/src/css/compiled/
