@@ -139,7 +139,7 @@ const buildProject = () =>
       'src/blocks/composite/**/*.js'
     ])
     .pipe(babel({
-      presets: ['env']
+      presets: ['@babel/preset-env']
     }))
     .pipe(concat('_project-code.js'))
     .pipe(gulp.dest('src/js/_compiled/'));
