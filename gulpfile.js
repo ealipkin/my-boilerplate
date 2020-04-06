@@ -7,6 +7,7 @@ const concat = require('gulp-concat');
 const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
 const browserSync = require('browser-sync').create();
+const prettyHtml = require('gulp-pretty-html');
 const imagemin = require('gulp-imagemin');
 const svgstore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
@@ -184,6 +185,12 @@ gulp.task('buster', () =>
 
 
 // PUG
+gulp.task('prettifyHtml', () =>
+  gulp.src('dest/*.html')
+      .pipe(prettyHtml())
+      .pipe(gulp.dest('dest'))
+);
+
 gulp.task('pug-concat', () =>
   gulp.src(['src/blocks/*/*/*.pug'])
       .pipe(plumber())
@@ -194,9 +201,7 @@ const buildPug = () =>
   gulp.src('src/pug/views/*.pug')
       .pipe(changed('dest', {extension: '.html'}))
       .pipe(plumber())
-      .pipe(pug({
-        pretty: true
-      }))
+      .pipe(pug())
       .pipe(gulp.dest('dest'));
 
 gulp.task('pug', gulp.series('svg', 'pug-concat', buildPug));
@@ -218,8 +223,20 @@ const completeProd = (done) => {
   done();
 };
 //Таск работает долго из-за оптимизации изображений, для быстрой сборки использовать static
-gulp.task('prod', gulp.series('images-copy', 'fonts', 'css', 'css-minify', 'js', 'js-uglify', 'buster', 'pug', 'svgInclude', completeProd));
-
+gulp.task('prod',
+  gulp.series(
+    'images-copy',
+    'fonts',
+    'css',
+    'css-minify',
+    'js',
+    'js-uglify',
+    'buster',
+    'pug',
+    'prettifyHtml',
+    'svgInclude',
+    completeProd)
+);
 gulp.task('static',
   gulp.series('images-copy', 'fonts', 'css', 'js', 'pug', 'pug-concat', (done) => {
     log('static build success in develop mode');
