@@ -249,8 +249,7 @@ gulp.task('watch', gulp.series('browser-sync', (done) => {
 
     gulp.watch(`dest/${pageName}.html`).on('change', browserSync.reload);
     gulp.watch(`dest/js/main.js`).on('change', browserSync.reload);
-
-    gulp.watch('dest/css/main.css', () => browserSync.reload('*.css'));
+    gulp.watch('dest/css/main.css').on('change', () => browserSync.reload('*.css'));
     done();
   }
 ))
