@@ -24,6 +24,7 @@ const blocksFolder = 'src/blocks';
 const tplFolder = 'templates';
 const path = require('path');
 const fs = require('fs');
+const clean = require('gulp-clean');
 const projectName = 'Project Name';
 
 const DEFAULT_PAGE_NAME = 'index';
@@ -218,6 +219,9 @@ gulp.task('pug-page', gulp.series('pug-concat', buildPugPage));
 
 // PUG END
 
+gulp.task('clean-html', () => gulp.src('dest/*.html', {read: false}).pipe(clean()));
+gulp.task('clean-css', () => gulp.src('dest/css/main.css', {read: false, allowEmpty: true}).pipe(clean()));
+
 const completeProd = (done) => {
   log('static build success in production mode');
   done();
@@ -225,6 +229,8 @@ const completeProd = (done) => {
 //Таск работает долго из-за оптимизации изображений, для быстрой сборки использовать static
 gulp.task('prod',
   gulp.series(
+    'clean-css',
+    'clean-html',
     'images-copy',
     'fonts',
     'css',
